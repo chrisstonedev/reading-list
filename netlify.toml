@@ -1,0 +1,3 @@
+[build]
+  publish = "dist/angular-jamstack"
+  command = "ng build"
