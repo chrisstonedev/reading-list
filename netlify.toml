@@ -1,3 +1,3 @@
 [build]
-  publish = "dist/angular-jamstack"
-  command = "ng build"
+  publish = "dist/static"
+  command = "ng build && npm run scully"

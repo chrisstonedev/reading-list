@@ -43,3 +43,16 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Local Netlify folder
+.netlify
+
+# Scully
+.scully
+scully.log
+scully.*.config.js
+scully-routes.json
+scullyStats.json
+/scully/**/*.js
+/scully/**/*.js.map
+/scully/**/*.d.ts
