@@ -1,7 +1,8 @@
-import sanityClient from '@sanity/cli';
+import sanityClient from '@sanity/client';
 
 export default sanityClient({
-    projectId: 'reading-list',
+    projectId: 'xw35o1hi',
     dataset: 'production',
+    apiVersion: '2021-12-18',
     useCdn: true
 })
