@@ -1,27 +1,34 @@
-# AngularJamstack
+# Reading List
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.11.
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Development server
+## Getting Started
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+First, run the development server:
 
-## Code scaffolding
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Build
+You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-## Running unit tests
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Learn More
 
-## Running end-to-end tests
+To learn more about Next.js, take a look at the following resources:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Further help
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Deployment
+
+This app is currently deployed via Netlify.
