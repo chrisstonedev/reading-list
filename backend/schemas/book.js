@@ -46,9 +46,9 @@ export default {
             of: [{type: 'reference', to: {type: 'category'}}],
         },
         {
-            name: 'publishedAt',
-            title: 'Published at',
-            type: 'datetime',
+            name: 'publishYear',
+            title: 'Published in',
+            type: 'number',
         },
         {
             name: 'description',
