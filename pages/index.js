@@ -66,10 +66,10 @@ function Home(props) {
                                }) => {
 
                             return (
-                                <BookCard key={_id} title={title} slug={slug.current} subtitle={subtitle} mains={mains}
-                                          withs={withs} coverImageUrl={coverImageUrl} recommendations={recommendations}
-                                          allRecommenders={allRecommenders} wished={wished} allWishers={allWishers}
-                                          userId={user?.id}/>
+                                <BookCard key={_id} id={_id} title={title} slug={slug.current} subtitle={subtitle}
+                                          mains={mains} withs={withs} coverImageUrl={coverImageUrl}
+                                          recommendations={recommendations} allRecommenders={allRecommenders}
+                                          wished={wished} allWishers={allWishers} userId={user?.id}/>
                             );
                         }
                     )}

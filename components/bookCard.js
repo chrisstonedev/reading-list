@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import {useState} from "react";
+import client from '../client';
 
 const authorArrayToString = (authors) => {
     let author;
@@ -20,19 +21,58 @@ const BookCard = (props) => {
         author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
     }
 
-    const [userRecommended, setUserRecommended] = useState(props.allRecommenders.includes(props.userId));
-    const [userWished, setUserWished] = useState(props.allWishers.includes(props.userId));
+    const [userRecommended, setUserRecommended] = useState(props.allRecommenders.map(x => x.userId).includes('5')); //props.userId));
+    const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId).includes('5')); //props.userId));
     const [recommendationCount, setRecommendationCount] = useState(props.recommendations);
     const [wishedCount, setWishedCount] = useState(props.wished);
 
+    function createDocument(documentType) {
+        const doc = {
+            _type: documentType,
+            book: {
+                _type: 'reference',
+                _ref: props.id
+            },
+            userId: props.userId,
+        };
+
+        client.create(doc).then((res) => {
+            console.log(`Document was created, document ID is ${res._id}`)
+        });
+    }
+
+    function deleteDocument(documentType) {
+        client.delete({query: `*[_type == "${documentType}" && userId == "${props.userId}" && book._ref == "${props.id}"]`})
+            .then(() => {
+                console.log('Document deleted')
+            })
+            .catch((err) => {
+                console.error('Delete failed: ', err.message)
+            });
+    }
+
     function recommend() {
-        setRecommendationCount(recommendationCount + (userRecommended ? -1 : 1));
-        setUserRecommended(!userRecommended);
+        if (userRecommended) {
+            deleteDocument('recommendation');
+            setRecommendationCount(recommendationCount - 1);
+            setUserRecommended(false);
+            return;
+        }
+        createDocument('recommendation');
+        setRecommendationCount(recommendationCount + 1);
+        setUserRecommended(true);
     }
 
     function wish() {
-        setWishedCount(wishedCount + (userWished ? -1 : 1));
-        setUserWished(!userWished);
+        if (userWished) {
+            deleteDocument('wishList');
+            setWishedCount(wishedCount - 1);
+            setUserWished(false);
+            return;
+        }
+        createDocument('wishList');
+        setWishedCount(wishedCount + 1);
+        setUserWished(true);
     }
 
     return (
