@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import client from '../client';
 import Image from 'next/image';
+import {useEffect, useState} from 'react';
+import netlifyAuth from '../netlifyAuth';
 
 const authorArrayToString = (authors) => {
     let author;
@@ -15,10 +17,47 @@ const authorArrayToString = (authors) => {
 }
 
 function Home(props) {
-    const {books = []} = props
+    const {books = []} = props;
+    let [loggedIn, setLoggedIn] = useState(netlifyAuth.isAuthenticated);
+    let [user, setUser] = useState(null);
+    useEffect(() => {
+        netlifyAuth.initialize((user) => {
+            setLoggedIn(!!user);
+            setUser(user);
+        })
+    }, [loggedIn]);
+    let login = () => {
+        netlifyAuth.authenticate((user) => {
+            setLoggedIn(!!user);
+            setUser(user);
+            netlifyAuth.closeModal()
+        })
+    }
+
+    let logout = () => {
+        netlifyAuth.signout(() => {
+            setLoggedIn(false)
+            setUser(null)
+        })
+    }
+    console.log('user', user);
     return (
         <>
             <h1 className="text-3xl font-bold underline">Welcome to a list of recommended technical books!</h1>
+            {loggedIn ? (
+                <div>
+                    You are logged in!
+                    {user && <>Welcome {user?.user_metadata.full_name}!</>}
+                    <br/>
+                    <button onClick={logout}>
+                        Log out here.
+                    </button>
+                </div>
+            ) : (
+                <button onClick={login}>
+                    Log in here.
+                </button>
+            )}
             <div className="p-10 grid grid-cols-1 gap-5">
                 {books.map(({
                                 _id,
@@ -30,8 +69,8 @@ function Home(props) {
                                 coverImageUrl = '',
                                 recommendations = 0,
                                 myRecommendations = 0,
-                    wished = 0,
-                    myWished = 0
+                                wished = 0,
+                                myWished = 0
                             }) => {
                         let author = 'by ' + authorArrayToString(mains.map(x => x.name));
                         if (withs?.length > 0) {
