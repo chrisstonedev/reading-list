@@ -62,9 +62,10 @@ export default {
             title: 'title',
             author0: 'mainAuthors.0.name',
             author1: 'mainAuthors.1.name',
-            author2: 'mainAuthors.2.name'
+            author2: 'mainAuthors.2.name',
+            media: 'frontCover'
         },
-        prepare: ({title, author0, author1, author2}) => {
+        prepare: ({title, author0, author1, author2, media}) => {
             const authors = [author0, author1].filter(Boolean)
             const hasMoreAuthors = Boolean(author2)
             const subtitle = authors.length > 0
@@ -73,7 +74,8 @@ export default {
 
             return {
                 title,
-                subtitle
+                subtitle,
+                media
             }
         }
     },
