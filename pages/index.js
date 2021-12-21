@@ -2,23 +2,25 @@ import client from '../client';
 import {useEffect, useState} from 'react';
 import netlifyAuth from '../netlifyAuth';
 import BookCard from '../components/bookCard'
+import {useRouter} from 'next/router';
 
 function Home(props) {
     const {books = []} = props;
-    let [loggedIn, setLoggedIn] = useState(netlifyAuth.isAuthenticated);
     let [user, setUser] = useState(null);
+    const router = useRouter();
     useEffect(() => {
         netlifyAuth.initialize((user) => {
-            setLoggedIn(!!user);
             setUser(user);
         })
-    }, [loggedIn]);
+    }, []);
 
     let login = () => {
         netlifyAuth.authenticate((user) => {
-            setLoggedIn(!!user);
             setUser(user);
-            netlifyAuth.closeModal();
+            if (!!user) {
+                console.log('Can I get a reload please?');
+                router.reload();
+            }
         })
     }
     let logout = () => {
@@ -31,7 +33,7 @@ function Home(props) {
     return (
         <>
             <h1 className="text-3xl font-bold underline">Recommended Technical Reading List</h1>
-            {loggedIn ? (
+            {user ? (
                 <div>
                     You are logged in!{' '}
                     {user && <>Welcome {user?.user_metadata.full_name}!</>}
