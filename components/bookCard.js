@@ -13,7 +13,7 @@ const authorArrayToString = (authors) => {
 }
 
 const BookCard = (props) => {
-    const userId = '7a8de33d-fbb0-4c18-a8e5-750561b43825'; // props.userId;
+    const userId = props.userId;
     let author = 'by ' + authorArrayToString(props.mains.map(x => x.name));
     if (props.withs?.length > 0) {
         author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
