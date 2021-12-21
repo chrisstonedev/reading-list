@@ -18,7 +18,7 @@ const BookCard = (props) => {
         author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
     }
 
-    console.log('my userId', props.userId, 'all', props.allRecommenders.map(x => x.userId), 'wish', props.allWishers.map(x => x.userId));
+    console.log('my userId', typeof props.userId, 'all', props.allRecommenders.map(x => typeof x.userId), 'wish', props.allWishers.map(x => x.userId));
 
     const [userRecommended, setUserRecommended] = useState(props.allRecommenders.map(x => x.userId).includes(props.userId));
     const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId).includes(props.userId));
