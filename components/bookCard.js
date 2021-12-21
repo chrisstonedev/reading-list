@@ -18,10 +18,18 @@ const BookCard = (props) => {
         author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
     }
 
-    console.log('my userId', typeof props.userId, 'all', props.allRecommenders.map(x => typeof x.userId), 'wish', props.allWishers.map(x => x.userId));
+    console.log('no changes',
+        props.allRecommenders.map(x => x.userId).includes(props.userId),
+        'map string',
+        props.allRecommenders.map(x => x.userId.toString()).includes(props.userId),
+        'include string',
+        props.allRecommenders.map(x => x.userId).includes(props.userId?.toString()),
+        'both string',
+        props.allRecommenders.map(x => x.userId.toString()).includes(props.userId?.toString()),
+        );
 
-    const [userRecommended, setUserRecommended] = useState(props.allRecommenders.map(x => x.userId).includes(props.userId));
-    const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId).includes(props.userId));
+    const [userRecommended, setUserRecommended] = useState(props.allRecommenders.map(x => x.userId).includes(props.userId?.toString()));
+    const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId.toString()).includes(props.userId));
     const [recommendationCount, setRecommendationCount] = useState(props.recommendations);
     const [wishedCount, setWishedCount] = useState(props.wished);
 
