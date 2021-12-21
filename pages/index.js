@@ -15,6 +15,7 @@ function Home(props) {
     }, []);
 
     let login = () => {
+        console.log('About to authenticate');
         netlifyAuth.authenticate((user) => {
             console.log('Authenticate result...',user);
             setUser(user);
@@ -26,6 +27,7 @@ function Home(props) {
     }
     let logout = () => {
         netlifyAuth.signout(() => {
+            console.log('Signout');
             setUser(null);
         })
     }
