@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  functions = "./functions"
+  publish = ".next"
+[dev]
+  command = "npm run dev"
+  functions = "./functions"
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

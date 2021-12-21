@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import {useState} from "react";
-import client from '../client';
 
 const authorArrayToString = (authors) => {
     let author;
@@ -26,51 +25,52 @@ const BookCard = (props) => {
     const [recommendationCount, setRecommendationCount] = useState(props.recommendations);
     const [wishedCount, setWishedCount] = useState(props.wished);
 
-    function createDocument(documentType) {
-        const doc = {
-            _type: documentType,
-            book: {
-                _type: 'reference',
-                _ref: props.id
-            },
-            userId: props.userId,
-        };
-
-        client.create(doc).then((res) => {
-            console.log(`Document was created, document ID is ${res._id}`)
-        });
+    function createDocument(documentType, bookId, userId) {
+        fetch('/.netlify/functions/createDocument', {
+            method: 'POST',
+            body: JSON.stringify({
+                documentType,
+                bookId,
+                userId,
+            })
+        })
+            .then(() => console.log('Document successfully created.'))
+            .catch(err => console.error('Document failed to be created: ', err));
     }
 
-    function deleteDocument(documentType) {
-        client.delete({query: `*[_type == "${documentType}" && userId == "${props.userId}" && book._ref == "${props.id}"]`})
-            .then(() => {
-                console.log('Document deleted')
+    function deleteDocument(documentType, bookId, userId) {
+        fetch('/.netlify/functions/deleteDocument', {
+            method: 'POST',
+            body: JSON.stringify({
+                documentType,
+                bookId,
+                userId,
             })
-            .catch((err) => {
-                console.error('Delete failed: ', err.message)
-            });
+        })
+            .then(() => console.log('Document successfully deleted.'))
+            .catch(err => console.error('Document failed to be deleted: ', err));
     }
 
     function recommend() {
         if (userRecommended) {
-            deleteDocument('recommendation');
+            deleteDocument('recommendation', props.id, props.userId);
             setRecommendationCount(recommendationCount - 1);
             setUserRecommended(false);
             return;
         }
-        createDocument('recommendation');
+        createDocument('recommendation', props.id, props.userId);
         setRecommendationCount(recommendationCount + 1);
         setUserRecommended(true);
     }
 
     function wish() {
         if (userWished) {
-            deleteDocument('wishList');
+            deleteDocument('wishList', props.id, props.userId);
             setWishedCount(wishedCount - 1);
             setUserWished(false);
             return;
         }
-        createDocument('wishList');
+        createDocument('wishList', props.id, props.userId);
         setWishedCount(wishedCount + 1);
         setUserWished(true);
     }
