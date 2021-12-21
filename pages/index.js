@@ -16,8 +16,9 @@ function Home(props) {
 
     let login = () => {
         netlifyAuth.authenticate((user) => {
+            console.log('Authenticate result...',user);
             setUser(user);
-            if (!!user) {
+            if (user) {
                 console.log('Can I get a reload please?');
                 router.reload();
             }
@@ -25,7 +26,6 @@ function Home(props) {
     }
     let logout = () => {
         netlifyAuth.signout(() => {
-            setLoggedIn(false);
             setUser(null);
         })
     }
