@@ -13,25 +13,17 @@ const authorArrayToString = (authors) => {
 }
 
 const BookCard = (props) => {
+    const userId = '7a8de33d-fbb0-4c18-a8e5-750561b43825'; // props.userId;
     let author = 'by ' + authorArrayToString(props.mains.map(x => x.name));
     if (props.withs?.length > 0) {
         author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
     }
 
-    console.log('no changes',
-        props.allRecommenders.map(x => x.userId).includes(props.userId),
-        'map string',
-        props.allRecommenders.map(x => x.userId.toString()).includes(props.userId),
-        'include string',
-        props.allRecommenders.map(x => x.userId).includes(props.userId?.toString()),
-        'both string',
-        props.allRecommenders.map(x => x.userId.toString()).includes(props.userId?.toString()),
-        );
-
-    const [userRecommended, setUserRecommended] = useState(props.allRecommenders.map(x => x.userId).includes(props.userId?.toString()));
-    const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId.toString()).includes(props.userId));
+    const [userRecommended, setUserRecommended] = useState(props.allRecommenders.map(x => x.userId).includes(userId));
+    const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId).includes(userId));
     const [recommendationCount, setRecommendationCount] = useState(props.recommendations);
     const [wishedCount, setWishedCount] = useState(props.wished);
+    console.log('checking',props.allRecommenders.map(x => x.userId),userRecommended,typeof userRecommended);
 
     function createDocument(documentType, bookId, userId) {
         fetch('/.netlify/functions/createDocument', {
@@ -60,25 +52,26 @@ const BookCard = (props) => {
     }
 
     function recommend() {
+        console.log('recommend was called');
         if (userRecommended) {
-            deleteDocument('recommendation', props.id, props.userId);
+            deleteDocument('recommendation', props.id, userId);
             setRecommendationCount(recommendationCount - 1);
             setUserRecommended(false);
             return;
         }
-        createDocument('recommendation', props.id, props.userId);
+        createDocument('recommendation', props.id, userId);
         setRecommendationCount(recommendationCount + 1);
         setUserRecommended(true);
     }
 
     function wish() {
         if (userWished) {
-            deleteDocument('wishList', props.id, props.userId);
+            deleteDocument('wishList', props.id, userId);
             setWishedCount(wishedCount - 1);
             setUserWished(false);
             return;
         }
-        createDocument('wishList', props.id, props.userId);
+        createDocument('wishList', props.id, userId);
         setWishedCount(wishedCount + 1);
         setUserWished(true);
     }
@@ -101,7 +94,7 @@ const BookCard = (props) => {
                 </div>
             </div>
             <div className="my-3">
-                {props.userId ? (
+                {userId ? (
                     <>
                         <button className={`${userRecommended ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
                                 onClick={recommend}>
