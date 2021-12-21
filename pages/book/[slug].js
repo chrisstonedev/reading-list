@@ -2,15 +2,13 @@ import client from '../../client';
 import Link from 'next/link';
 
 const authorArrayToString = (authors) => {
-    let author;
     if (authors.length === 2) {
-        author = authors.join(' & ');
-    } else if (authors.length > 2) {
-        author = `${authors.slice(0, 2).join(', ')}, & ${authors[authors.length - 1]}`;
-    } else {
-        author = authors.join('');
+        return authors.join(' & ');
     }
-    return author;
+    if (authors.length > 2) {
+        return `${authors.slice(0, 2).join(', ')}, & ${authors[authors.length - 1]}`;
+    }
+    return authors.join('');
 }
 
 function Book(props) {

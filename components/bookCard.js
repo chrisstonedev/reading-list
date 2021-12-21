@@ -3,15 +3,13 @@ import Link from "next/link";
 import {useState} from "react";
 
 const authorArrayToString = (authors) => {
-    let author;
     if (authors.length === 2) {
-        author = authors.join(' & ');
-    } else if (authors.length > 2) {
-        author = `${authors.slice(0, 2).join(', ')}, & ${authors[authors.length - 1]}`;
-    } else {
-        author = authors.join('');
+        return authors.join(' & ');
     }
-    return author;
+    if (authors.length > 2) {
+        return `${authors.slice(0, 2).join(', ')}, & ${authors[authors.length - 1]}`;
+    }
+    return authors.join('');
 }
 
 const BookCard = (props) => {
@@ -20,8 +18,8 @@ const BookCard = (props) => {
         author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
     }
 
-    const [userRecommended, setUserRecommended] = useState(props.allRecommenders.map(x => x.userId).includes('5')); //props.userId));
-    const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId).includes('5')); //props.userId));
+    const [userRecommended, setUserRecommended] = useState(props.allRecommenders.map(x => x.userId).includes(props.userId)); //props.userId));
+    const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId).includes(props.userId)); //props.userId));
     const [recommendationCount, setRecommendationCount] = useState(props.recommendations);
     const [wishedCount, setWishedCount] = useState(props.wished);
 
@@ -95,35 +93,28 @@ const BookCard = (props) => {
             <div className="my-3">
                 {props.userId ? (
                     <>
-                        <button
-                            className={`${userRecommended ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
-                            onClick={recommend}>
+                        <button className={`${userRecommended ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
+                                onClick={recommend}>
                             <span>{userRecommended ? 'Recommended!' : 'Recommend'}</span>
                             <span
                                 className="bg-amber-300 text-gray-800 text-xs ml-3 px-2 rounded-full font-semibold">{recommendationCount}</span>
                         </button>
-                        <button
-                            className={`${userWished ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
-                            onClick={wish}>
+                        <button className={`${userWished ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
+                                onClick={wish}>
                             <span>{userWished ? 'Wished!' : 'Wish List'}</span>
-                            <span
-                                className="bg-amber-300 text-gray-800 text-xs ml-3 px-2 rounded-full font-semibold">{wishedCount}</span>
+                            <span className="bg-amber-300 text-gray-800 text-xs ml-3 px-2 rounded-full font-semibold">{wishedCount}</span>
                         </button>
                     </>
                 ) : (
                     <>
-                                        <span
-                                            className="bg-gray-100 text-gray-500 rounded-full px-3 py-1 text-sm font-semibold ml-4 my-3">
-                                            <span>Recommended</span>
-                                            <span
-                                                className="bg-amber-200 text-gray-600 text-xs ml-3 px-2 rounded-full font-semibold">{props.recommendations}</span>
-                                        </span>
-                        <span
-                            className="bg-gray-100 text-gray-500 rounded-full px-3 py-1 text-sm font-semibold ml-4 my-3">
-                                            <span>Wish Listed</span>
-                                            <span
-                                                className="bg-amber-200 text-gray-600 text-xs ml-3 px-2 rounded-full font-semibold">{props.wished}</span>
-                                        </span>
+                        <span className="bg-gray-100 text-gray-500 rounded-full px-3 py-1 text-sm font-semibold ml-4 my-3">
+                            <span>Recommended</span>
+                            <span className="bg-amber-200 text-gray-600 text-xs ml-3 px-2 rounded-full font-semibold">{props.recommendations}</span>
+                        </span>
+                        <span className="bg-gray-100 text-gray-500 rounded-full px-3 py-1 text-sm font-semibold ml-4 my-3">
+                            <span>Wish Listed</span>
+                            <span className="bg-amber-200 text-gray-600 text-xs ml-3 px-2 rounded-full font-semibold">{props.wished}</span>
+                        </span>
                     </>
                 )}
             </div>

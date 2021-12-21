@@ -4,5 +4,5 @@ export default sanityClient({
     projectId: 'xw35o1hi',
     dataset: 'production',
     apiVersion: '2021-12-21',
-    useCdn: true
+    useCdn: false
 })
