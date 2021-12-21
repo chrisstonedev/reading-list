@@ -19,18 +19,14 @@ const BookCard = (props) => {
         author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
     }
 
-    const userHasRecommended = props.allRecommenders.map(x => x.userId).includes(userId);
-    const [userRecommended, setUserRecommended] = useState(userHasRecommended);
-    if (userRecommended !== userHasRecommended) {
-        setUserRecommended(userHasRecommended);
-    }
-    const userHasWished = props.allWishers.map(x => x.userId).includes(userId);
-    const [userWished, setUserWished] = useState(userHasWished);
-    if (userWished !== userHasWished) {
-        setUserWished(userHasWished);
-    }
-    const [recommendationCount, setRecommendationCount] = useState(props.recommendations);
-    const [wishedCount, setWishedCount] = useState(props.wished);
+    const userRecommends = props.allRecommenders.map(x => x.userId).includes(userId);
+    const userWishes = props.allWishers.map(x => x.userId).includes(userId);
+    const [counters, setCounters] = useState({
+        userRecommends,
+        userWishes,
+        recommendCount: props.recommendations,
+        wishCount: props.wished,
+    });
 
     function createDocument(documentType, bookId, userId) {
         fetch('/.netlify/functions/createDocument', {
@@ -59,28 +55,35 @@ const BookCard = (props) => {
     }
 
     function recommend() {
-        console.log('recommend was called');
-        if (userRecommended) {
+        if (counters.userRecommends) {
             deleteDocument('recommendation', props.id, userId);
-            setRecommendationCount(recommendationCount - 1);
-            setUserRecommended(false);
+            setCounters(() => { return {
+                userRecommends: false,
+                recommendCount: counters.recommendCount - 1
+            }});
             return;
         }
         createDocument('recommendation', props.id, userId);
-        setRecommendationCount(recommendationCount + 1);
-        setUserRecommended(true);
+        setCounters(() => { return {
+            userRecommends: true,
+            recommendCount: counters.recommendCount + 1
+        }});
     }
 
     function wish() {
-        if (userWished) {
+        if (counters.userWishes) {
             deleteDocument('wishList', props.id, userId);
-            setWishedCount(wishedCount - 1);
-            setUserWished(false);
+            setCounters(() => { return {
+                userWishes: false,
+                wishCount: counters.wishCount - 1
+            }});
             return;
         }
         createDocument('wishList', props.id, userId);
-        setWishedCount(wishedCount + 1);
-        setUserWished(true);
+        setCounters(() => { return {
+            userWishes: true,
+            wishCount: counters.wishCount + 1
+        }});
     }
 
     return (
@@ -103,27 +106,34 @@ const BookCard = (props) => {
             <div className="my-3">
                 {userId ? (
                     <>
-                        <button className={`${userRecommended ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
-                                onClick={recommend}>
-                            <span>{userRecommended ? 'Recommended!' : 'Recommend'}</span>
+                        <button
+                            className={`${counters.userRecommends ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
+                            onClick={recommend}>
+                            <span>{counters.userRecommends ? 'Recommended!' : 'Recommend'}</span>
                             <span
-                                className="bg-amber-300 text-gray-800 text-xs ml-3 px-2 rounded-full font-semibold">{recommendationCount}</span>
+                                className="bg-amber-300 text-gray-800 text-xs ml-3 px-2 rounded-full font-semibold">{counters.recommendCount}</span>
                         </button>
-                        <button className={`${userWished ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
-                                onClick={wish}>
-                            <span>{userWished ? 'Wished!' : 'Wish List'}</span>
-                            <span className="bg-amber-300 text-gray-800 text-xs ml-3 px-2 rounded-full font-semibold">{wishedCount}</span>
+                        <button
+                            className={`${counters.userWishes ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
+                            onClick={wish}>
+                            <span>{counters.userWishes ? 'Wished!' : 'Wish List'}</span>
+                            <span
+                                className="bg-amber-300 text-gray-800 text-xs ml-3 px-2 rounded-full font-semibold">{counters.wishCount}</span>
                         </button>
                     </>
                 ) : (
                     <>
-                        <span className="bg-gray-100 text-gray-500 rounded-full px-3 py-1 text-sm font-semibold ml-4 my-3">
+                        <span
+                            className="bg-gray-100 text-gray-500 rounded-full px-3 py-1 text-sm font-semibold ml-4 my-3">
                             <span>Recommended</span>
-                            <span className="bg-amber-200 text-gray-600 text-xs ml-3 px-2 rounded-full font-semibold">{props.recommendations}</span>
+                            <span
+                                className="bg-amber-200 text-gray-600 text-xs ml-3 px-2 rounded-full font-semibold">{props.recommendations}</span>
                         </span>
-                        <span className="bg-gray-100 text-gray-500 rounded-full px-3 py-1 text-sm font-semibold ml-4 my-3">
+                        <span
+                            className="bg-gray-100 text-gray-500 rounded-full px-3 py-1 text-sm font-semibold ml-4 my-3">
                             <span>Wish Listed</span>
-                            <span className="bg-amber-200 text-gray-600 text-xs ml-3 px-2 rounded-full font-semibold">{props.wished}</span>
+                            <span
+                                className="bg-amber-200 text-gray-600 text-xs ml-3 px-2 rounded-full font-semibold">{props.wished}</span>
                         </span>
                     </>
                 )}

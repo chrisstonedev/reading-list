@@ -13,7 +13,7 @@ exports.handler = async (request) => {
 
     await sanity.delete({query: `*[_type == "${values.documentType}" && userId == "${values.userId}" && book._ref == "${values.bookId}"]`});
     return {
-        statusCode: 500,
+        statusCode: 200,
         body: 'ok',
     }
 }
