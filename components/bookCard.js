@@ -19,11 +19,18 @@ const BookCard = (props) => {
         author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
     }
 
-    const [userRecommended, setUserRecommended] = useState(props.allRecommenders.map(x => x.userId).includes(userId));
-    const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId).includes(userId));
+    const userHasRecommended = props.allRecommenders.map(x => x.userId).includes(userId);
+    const [userRecommended, setUserRecommended] = useState(userHasRecommended);
+    if (userRecommended !== userHasRecommended) {
+        setUserRecommended(userHasRecommended);
+    }
+    const userHasWished = props.allWishers.map(x => x.userId).includes(userId);
+    const [userWished, setUserWished] = useState(userHasWished);
+    if (userWished !== userHasWished) {
+        setUserWished(userHasWished);
+    }
     const [recommendationCount, setRecommendationCount] = useState(props.recommendations);
     const [wishedCount, setWishedCount] = useState(props.wished);
-    console.log('checking',props.allRecommenders.map(x => x.userId),userRecommended,typeof userRecommended, props.allRecommenders.map(x => x.userId).includes(userId), userId);
 
     function createDocument(documentType, bookId, userId) {
         fetch('/.netlify/functions/createDocument', {
