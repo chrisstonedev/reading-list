@@ -1,5 +1,4 @@
 import client from '../client';
-import {useRouter} from 'next/router';
 import {useEffect, useState} from 'react';
 import netlifyAuth from '../netlifyAuth';
 import BookCard from '../components/bookCard'
@@ -8,7 +7,6 @@ function Home(props) {
     const {books = []} = props;
     let [loggedIn, setLoggedIn] = useState(netlifyAuth.isAuthenticated);
     let [user, setUser] = useState(null);
-    const router = useRouter();
     useEffect(() => {
         netlifyAuth.initialize((user) => {
             setLoggedIn(!!user);
@@ -21,8 +19,6 @@ function Home(props) {
             setLoggedIn(!!user);
             setUser(user);
             netlifyAuth.closeModal();
-
-            router.reload();
         })
     }
     let logout = () => {

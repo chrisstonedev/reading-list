@@ -93,7 +93,7 @@ const BookCard = (props) => {
                 </div>
             </div>
             <div className="my-3">
-                {props.userId || true ? (
+                {props.userId ? (
                     <>
                         <button
                             className={`${userRecommended ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
