@@ -18,8 +18,10 @@ const BookCard = (props) => {
         author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
     }
 
-    const [userRecommended, setUserRecommended] = useState(props.allRecommenders.map(x => x.userId).includes(props.userId)); //props.userId));
-    const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId).includes(props.userId)); //props.userId));
+    console.log('my userId', props.userId, 'all', props.allRecommenders.map(x => x.userId), 'wish', props.allWishers.map(x => x.userId));
+
+    const [userRecommended, setUserRecommended] = useState(props.allRecommenders.map(x => x.userId).includes(props.userId));
+    const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId).includes(props.userId));
     const [recommendationCount, setRecommendationCount] = useState(props.recommendations);
     const [wishedCount, setWishedCount] = useState(props.wished);
 
