@@ -27,18 +27,6 @@ const BookCard = (props) => {
         wishCount: props.wished,
     }
     const [counters, setCounters] = useState(initialState);
-    // useEffect(() => {
-    //     console.log('maybe...');
-    //     setUserId(userId);
-    //     setCounters(() => {
-    //         return {
-    //             userRecommends: props.allRecommenders.map(x => x.userId).includes(userId),
-    //             userWishes: props.allWishers.map(x => x.userId).includes(userId),
-    //             recommendCount: props.recommendations,
-    //             wishCount: props.wished,
-    //         }
-    //     });
-    // }, [userId]);
     if (counters.userId !== userId) {
         setCounters(initialState);
     }
