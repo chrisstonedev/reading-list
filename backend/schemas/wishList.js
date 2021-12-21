@@ -1,6 +1,6 @@
 export default {
-    name: 'recommendation',
-    title: 'Recommendation',
+    name: 'wishList',
+    title: 'Wish List',
     type: 'document',
     fields: [
         {
@@ -24,7 +24,7 @@ export default {
         prepare: ({bookTitle, userId}) => {
             return {
                 title: bookTitle,
-                subtitle: `is recommended by ${userId}`
+                subtitle: `is wished by ${userId}`
             }
         }
     },
