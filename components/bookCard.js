@@ -19,14 +19,29 @@ const BookCard = (props) => {
         author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
     }
 
-    const userRecommends = props.allRecommenders.map(x => x.userId).includes(userId);
-    const userWishes = props.allWishers.map(x => x.userId).includes(userId);
-    const [counters, setCounters] = useState({
-        userRecommends,
-        userWishes,
+    const initialState = {
+        userId: userId,
+        userRecommends: props.allRecommenders.map(x => x.userId).includes(userId),
+        userWishes: props.allWishers.map(x => x.userId).includes(userId),
         recommendCount: props.recommendations,
         wishCount: props.wished,
-    });
+    }
+    const [counters, setCounters] = useState(initialState);
+    // useEffect(() => {
+    //     console.log('maybe...');
+    //     setUserId(userId);
+    //     setCounters(() => {
+    //         return {
+    //             userRecommends: props.allRecommenders.map(x => x.userId).includes(userId),
+    //             userWishes: props.allWishers.map(x => x.userId).includes(userId),
+    //             recommendCount: props.recommendations,
+    //             wishCount: props.wished,
+    //         }
+    //     });
+    // }, [userId]);
+    if (counters.userId !== userId) {
+        setCounters(initialState);
+    }
 
     function createDocument(documentType, bookId, userId) {
         fetch('/.netlify/functions/createDocument', {
@@ -57,33 +72,45 @@ const BookCard = (props) => {
     function recommend() {
         if (counters.userRecommends) {
             deleteDocument('recommendation', props.id, userId);
-            setCounters(() => { return {
-                userRecommends: false,
-                recommendCount: counters.recommendCount - 1
-            }});
+            setCounters(() => {
+                return {
+                    ...counters,
+                    userRecommends: false,
+                    recommendCount: counters.recommendCount - 1
+                }
+            });
             return;
         }
         createDocument('recommendation', props.id, userId);
-        setCounters(() => { return {
-            userRecommends: true,
-            recommendCount: counters.recommendCount + 1
-        }});
+        setCounters(() => {
+            return {
+                ...counters,
+                userRecommends: true,
+                recommendCount: counters.recommendCount + 1
+            }
+        });
     }
 
     function wish() {
         if (counters.userWishes) {
             deleteDocument('wishList', props.id, userId);
-            setCounters(() => { return {
-                userWishes: false,
-                wishCount: counters.wishCount - 1
-            }});
+            setCounters(() => {
+                return {
+                    ...counters,
+                    userWishes: false,
+                    wishCount: counters.wishCount - 1,
+                }
+            });
             return;
         }
         createDocument('wishList', props.id, userId);
-        setCounters(() => { return {
-            userWishes: true,
-            wishCount: counters.wishCount + 1
-        }});
+        setCounters(() => {
+            return {
+                ...counters,
+                userWishes: true,
+                wishCount: counters.wishCount + 1
+            }
+        });
     }
 
     return (
