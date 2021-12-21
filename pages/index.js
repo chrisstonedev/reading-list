@@ -1,8 +1,9 @@
 import client from '../client';
-import {useEffect, useState} from 'react';
 import netlifyAuth from '../netlifyAuth';
 import BookCard from '../components/bookCard'
+import Head from 'next/head';
 import {useRouter} from 'next/router';
+import {useEffect, useState} from 'react';
 
 function Home(props) {
     const {books = []} = props;
@@ -15,12 +16,9 @@ function Home(props) {
     }, []);
 
     let login = () => {
-        console.log('About to authenticate');
         netlifyAuth.authenticate((user) => {
-            console.log('Authenticate result...',user);
             setUser(user);
             if (user) {
-                console.log('Can I get a reload please?');
                 router.reload();
             }
         })
@@ -34,6 +32,9 @@ function Home(props) {
 
     return (
         <>
+            <Head>
+                <title>Reading List</title>
+            </Head>
             <h1 className="text-3xl font-bold underline">Recommended Technical Reading List</h1>
             {user ? (
                 <div>
