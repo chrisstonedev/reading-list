@@ -23,7 +23,7 @@ const BookCard = (props) => {
     const [userWished, setUserWished] = useState(props.allWishers.map(x => x.userId).includes(userId));
     const [recommendationCount, setRecommendationCount] = useState(props.recommendations);
     const [wishedCount, setWishedCount] = useState(props.wished);
-    console.log('checking',props.allRecommenders.map(x => x.userId),userRecommended,typeof userRecommended);
+    console.log('checking',props.allRecommenders.map(x => x.userId),userRecommended,typeof userRecommended, props.allRecommenders.map(x => x.userId).includes(userId), userId);
 
     function createDocument(documentType, bookId, userId) {
         fetch('/.netlify/functions/createDocument', {
