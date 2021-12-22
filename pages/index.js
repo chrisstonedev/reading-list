@@ -36,7 +36,8 @@ function Home(props) {
                 <title>Reading List</title>
             </Head>
             <h1 className="text-3xl font-bold underline">Recommended Technical Reading List</h1>
-            <a className="block mb-4 text-green-700 underline" href="https://github.com/chrisstonedev/reading-list" target="_blank" rel="noreferrer">Check out the source code on GitHub!</a>
+            <a className="block mb-4 text-green-700 underline" href="https://github.com/chrisstonedev/reading-list"
+               target="_blank" rel="noreferrer">Check out the source code on GitHub!</a>
             {user ? (
                 <div>
                     You are logged in!{' '}
@@ -47,9 +48,12 @@ function Home(props) {
                     </button>
                 </div>
             ) : (
-                <button onClick={login} className="text-blue-500 underline">
-                    Log in to help mark books as recommended or add them to a wish list
-                </button>
+                <>
+                    <button onClick={login} className="text-blue-500 underline">
+                        Log in to help mark books as recommended or add them to a wish list
+                    </button>
+                    <p className="text-sm">Note: After logging in, you may need to refresh to update the state.</p>
+                </>
             )}
             <div className="p-10 grid grid-cols-1 gap-5">
                 {
