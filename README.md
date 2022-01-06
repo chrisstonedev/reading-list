@@ -9,7 +9,7 @@ just seemed to me like the next logical progression was to move this data into a
 web app at build time to create a Jamstack static site that uses serverless functions to update this data so my friends
 and coworkers can build their own recommendation and wish lists, right?
 
-This app is hosted on Netlify and can be found at [reading.chrisstone.dev](https://reading.chrisstone.dev).
+This app is hosted on Netlify and can be found at [reading.engineering](https://reading.engineering).
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9c5a06da-ee42-42c3-9b71-58ddc089ca43/deploy-status)](https://app.netlify.com/sites/reading-list-chrisstonedev/deploys)
 
