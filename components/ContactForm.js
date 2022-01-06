@@ -3,7 +3,7 @@ export default function ContactForm() {
         <div className="w-full max-w-md">
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" name="request" method="POST"
                   data-netlify="true" action="/success">
-                <input type="hidden" name="form-name" value="feedback"/>
+                <input type="hidden" name="form-name" value="request"/>
                 <div className="mb-4">
                     <label htmlFor="title">
                         Book title:
