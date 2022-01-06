@@ -11,7 +11,7 @@ and coworkers can build their own recommendation and wish lists, right?
 
 This app is hosted on Netlify and can be found at [reading.engineering](https://reading.engineering).
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/9c5a06da-ee42-42c3-9b71-58ddc089ca43/deploy-status)](https://app.netlify.com/sites/reading-list-chrisstonedev/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9c5a06da-ee42-42c3-9b71-58ddc089ca43/deploy-status)](https://app.netlify.com/sites/reading-engineering/deploys)
 
 ## Development
 
