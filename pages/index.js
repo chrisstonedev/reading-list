@@ -4,6 +4,7 @@ import BookCard from '../components/bookCard'
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import {useEffect, useState} from 'react';
+import Link from "next/link";
 
 function Home(props) {
     const {books = []} = props;
@@ -33,29 +34,37 @@ function Home(props) {
     return (
         <>
             <Head>
-                <title>Reading List</title>
+                <title>reading.engineering</title>
             </Head>
-            <h1 className="text-3xl font-bold underline">Recommended Technical Reading List</h1>
-            <a className="block mb-4 text-green-700 underline" href="https://github.com/chrisstonedev/reading-list"
-               target="_blank" rel="noreferrer">Check out the source code on GitHub!</a>
-            {user ? (
-                <div>
-                    You are logged in!{' '}
-                    {user && <>Welcome {user?.user_metadata.full_name}!</>}
-                    <br/>
-                    <button onClick={logout} className="text-blue-500 underline">
-                        Log out here
-                    </button>
-                </div>
-            ) : (
-                <>
-                    <button onClick={login} className="text-blue-500 underline">
-                        Log in to help mark books as recommended or add them to a wish list
-                    </button>
-                    <p className="text-sm">Note: After logging in, you may need to refresh to update the state.</p>
-                </>
-            )}
-            <div className="p-10 grid grid-cols-1 gap-5">
+            <header className="m-10 grid grid-cols-1">
+                <h1 className="text-3xl font-bold underline">reading.engineering</h1>
+                <p>See which technical books are the most recommended among engineering professionals.</p>
+                <a className="block mb-4 text-green-700 underline" href="https://github.com/chrisstonedev/reading-list"
+                   target="_blank" rel="noreferrer">Check out the source code on GitHub!</a>
+                {user ? (
+                    <div>
+                        You are logged in!{' '}
+                        {user && <>Welcome {user?.user_metadata.full_name}!</>}
+                        <br/>
+                        <button onClick={logout} className="text-blue-500 underline">
+                            Log out here
+                        </button>
+                    </div>
+                ) : (
+                    <>
+                        <button onClick={login} className="text-blue-500 underline">
+                            Log in to help mark books as recommended or add them to a wish list
+                        </button>
+                        <p className="text-sm">Note: After logging in, you may need to refresh to update the state.</p>
+                    </>
+                )}
+                <Link href="/request">
+                    <a className="mb-4 text-blue-500 underline">
+                        Request missing book
+                    </a>
+                </Link>
+            </header>
+            <main className="m-10 grid grid-cols-1 gap-5">
                 {
                     books.map(({
                                    _id,
@@ -79,7 +88,7 @@ function Home(props) {
                             );
                         }
                     )}
-            </div>
+            </main>
         </>
     )
 }
