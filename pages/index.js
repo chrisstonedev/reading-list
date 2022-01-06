@@ -26,7 +26,6 @@ function Home(props) {
     }
     let logout = () => {
         netlifyAuth.signout(() => {
-            console.log('Signout');
             setUser(null);
         })
     }
@@ -38,31 +37,28 @@ function Home(props) {
             </Head>
             <header className="m-10 grid grid-cols-1">
                 <h1 className="text-3xl font-bold underline">reading.engineering</h1>
-                <p>See which technical books are the most recommended among engineering professionals.</p>
-                <a className="block mb-4 text-green-700 underline" href="https://github.com/chrisstonedev/reading-list"
-                   target="_blank" rel="noreferrer">Check out the source code on GitHub!</a>
+                <p className="mb-4">See which technical books are the most recommended among engineering professionals.</p>
+                <div>
+                    <button onClick={user ? logout : login}
+                            className="bg-purple-500 hover:bg-purple-700 text-white font-bold text-xl py-2 px-4 rounded mr-6">
+                        <span>{user ? 'Log out' : 'Log in'}</span>
+                    </button>
+                    <Link href="/request">
+                        <a className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mr-4">
+                            <span>Request missing book</span>
+                        </a>
+                    </Link>
+                    <a className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" href="https://github.com/chrisstonedev/reading-list"
+                       target="_blank" rel="noreferrer">View source code on GitHub</a>
+                </div>
                 {user ? (
-                    <div>
+                    <p>
                         You are logged in!{' '}
                         {user && <>Welcome {user?.user_metadata.full_name}!</>}
-                        <br/>
-                        <button onClick={logout} className="text-blue-500 underline">
-                            Log out here
-                        </button>
-                    </div>
+                    </p>
                 ) : (
-                    <>
-                        <button onClick={login} className="text-blue-500 underline">
-                            Log in to help mark books as recommended or add them to a wish list
-                        </button>
-                        <p className="text-sm">Note: After logging in, you may need to refresh to update the state.</p>
-                    </>
+                    <p className="text-sm">Note: After logging in, you may need to refresh to update the state.</p>
                 )}
-                <Link href="/request">
-                    <a className="mb-4 text-blue-500 underline">
-                        Request missing book
-                    </a>
-                </Link>
             </header>
             <main className="m-10 grid grid-cols-1 gap-5">
                 {
