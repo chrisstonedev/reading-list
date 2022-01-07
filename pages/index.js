@@ -1,6 +1,6 @@
 import client from '../client';
 import netlifyAuth from '../netlifyAuth';
-import BookCard from '../components/bookCard'
+import BookCard from '../components/BookCard';
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import {useEffect, useState} from 'react';
@@ -37,10 +37,10 @@ function Home(props) {
             </Head>
             <header className="m-10 grid grid-cols-1">
                 <h1 className="text-3xl font-bold underline">reading.engineering</h1>
-                <p className="mb-4">See which technical books are the most recommended among engineering professionals.</p>
+                <p className="mb-4">Help create the definitive list of the most recommended technical books for software engineering professionals.</p>
                 <div>
                     <button onClick={user ? logout : login}
-                            className="bg-purple-500 hover:bg-purple-700 text-white font-bold text-xl py-2 px-4 rounded mr-6">
+                            className="bg-green-500 hover:bg-green-700 text-white font-bold text-xl py-2 px-4 rounded mr-6">
                         <span>{user ? 'Log out' : 'Log in'}</span>
                     </button>
                     <Link href="/request">
@@ -49,7 +49,7 @@ function Home(props) {
                         </a>
                     </Link>
                     <a className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" href="https://github.com/chrisstonedev/reading-list"
-                       target="_blank" rel="noreferrer">View source code on GitHub</a>
+                       target="_blank" rel="noreferrer">View source code</a>
                 </div>
                 {user ? (
                     <p>
