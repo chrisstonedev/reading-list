@@ -1,8 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
-import {useState} from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import React, {useState} from 'react';
 
-const authorArrayToString = (authors) => {
+export function authorArrayToString(authors: string[]): string {
     if (authors.length === 2) {
         return authors.join(' & ');
     }
@@ -12,7 +12,30 @@ const authorArrayToString = (authors) => {
     return authors.join('');
 }
 
-const BookCard = (props) => {
+type Props = {
+    id: string,
+    title: string,
+    slug: string,
+    subtitle: string,
+    mains: {name: string}[],
+    withs: {name: string}[],
+    coverImageUrl: string,
+    recommendations: number,
+    allRecommenders: {userId: string}[],
+    wished: number,
+    allWishers: {userId: string}[],
+    userId: string
+};
+
+type Counters = {
+    userId: string,
+    userRecommends: boolean,
+    recommendCount: number,
+    userWishes: boolean,
+    wishCount: number,
+};
+
+export default function BookCard(props: Props) {
     const userId = props.userId;
     let author = 'by ' + authorArrayToString(props.mains.map(x => x.name));
     if (props.withs?.length > 0) {
@@ -26,12 +49,12 @@ const BookCard = (props) => {
         recommendCount: props.recommendations,
         wishCount: props.wished,
     }
-    const [counters, setCounters] = useState(initialState);
+    const [counters, setCounters] = useState<Counters>(initialState);
     if (counters.userId !== userId) {
         setCounters(initialState);
     }
 
-    function createDocument(documentType, bookId, userId) {
+    function createDocument(documentType: string, bookId: string, userId: string) {
         fetch('/.netlify/functions/createDocument', {
             method: 'POST',
             body: JSON.stringify({
@@ -44,7 +67,7 @@ const BookCard = (props) => {
             .catch(err => console.error('Document failed to be created: ', err));
     }
 
-    function deleteDocument(documentType, bookId, userId) {
+    function deleteDocument(documentType: string, bookId: string, userId: string) {
         fetch('/.netlify/functions/deleteDocument', {
             method: 'POST',
             body: JSON.stringify({
@@ -101,6 +124,7 @@ const BookCard = (props) => {
         });
     }
 
+    // noinspection HtmlUnknownTarget
     return (
         <div className="bg-white rounded-lg ring-1 ring-gray-900/5 shadow-xl">
             <div className="flex gap-3">
@@ -156,5 +180,3 @@ const BookCard = (props) => {
         </div>
     )
 }
-
-export default BookCard;

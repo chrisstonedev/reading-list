@@ -1,17 +1,19 @@
 import client from '../../client';
 import Link from 'next/link';
+import {authorArrayToString} from '../../components/BookCard';
 
-const authorArrayToString = (authors) => {
-    if (authors.length === 2) {
-        return authors.join(' & ');
+type Props = {
+    book: {
+        title: string,
+        subtitle: string,
+        mainAuthors: string[],
+        withAuthors: string[],
+        publishYear: string
     }
-    if (authors.length > 2) {
-        return `${authors.slice(0, 2).join(', ')}, & ${authors[authors.length - 1]}`;
-    }
-    return authors.join('');
-}
+};
 
-function Book(props) {
+// noinspection JSUnusedGlobalSymbols
+export default function Book(props: Props) {
     const {
         title = 'Missing title',
         subtitle = '',
@@ -35,16 +37,18 @@ function Book(props) {
     )
 }
 
+// noinspection JSUnusedGlobalSymbols
 export async function getStaticPaths() {
-    const paths = await client.fetch('*[_type == "book" && defined(slug.current)][].slug.current');
+    const paths: string[] = await client.fetch('*[_type == "book" && defined(slug.current)][].slug.current');
 
     return {
-        paths: paths.map((slug) => ({params: {slug}})),
+        paths: paths.map(slug => ({params: {slug}})),
         fallback: true,
     }
 }
 
-export async function getStaticProps(context) {
+// noinspection JSUnusedGlobalSymbols
+export async function getStaticProps(context: {params: {slug: string}}) {
     const {slug = ""} = context.params;
     const book = await client.fetch(`*[_type == "book" && slug.current == $slug][0]{
         title,
@@ -60,5 +64,3 @@ export async function getStaticProps(context) {
         }
     }
 }
-
-export default Book

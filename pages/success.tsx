@@ -1,6 +1,8 @@
-import Head from "next/head";
-import Link from "next/link";
+import Head from 'next/head';
+import Link from 'next/link';
+import React from "react";
 
+// noinspection JSUnusedGlobalSymbols
 export default function Success() {
     return (
         <>
