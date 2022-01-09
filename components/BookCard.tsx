@@ -17,13 +17,13 @@ type Props = {
     title: string,
     slug: string,
     subtitle: string,
-    mains: {name: string}[],
-    withs: {name: string}[],
+    mains: { name: string }[],
+    withs: { name: string }[],
     coverImageUrl: string,
     recommendations: number,
-    allRecommenders: {userId: string}[],
+    allRecommenders: { userId: string }[],
     wished: number,
-    allWishers: {userId: string}[],
+    allWishers: { userId: string }[],
     userId: string
 };
 
@@ -37,9 +37,12 @@ type Counters = {
 
 export default function BookCard(props: Props) {
     const userId = props.userId;
-    let author = 'by ' + authorArrayToString(props.mains.map(x => x.name));
-    if (props.withs?.length > 0) {
-        author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
+    let author = '';
+    if (props.mains?.length > 0) {
+        author += 'by ' + authorArrayToString(props.mains.map(x => x.name));
+        if (props.withs?.length > 0) {
+            author += ' with ' + authorArrayToString(props.withs.map(x => x.name));
+        }
     }
 
     const initialState = {
@@ -128,18 +131,20 @@ export default function BookCard(props: Props) {
     return (
         <div className="bg-white rounded-lg ring-1 ring-gray-900/5 shadow-xl">
             <div className="flex gap-3">
-                <Image className="rounded-tl-lg w-full" src={props.coverImageUrl} alt={props.title}
+                <Image className="rounded-tl-lg w-full"
+                       src={props.coverImageUrl.length > 0 ? props.coverImageUrl : '/image-missing.png'}
+                       alt={props.title}
                        width={50}
                        height={75}
                        aria-hidden="true"/>
                 <div className="inline-block align-top">
-                    <h2 className="text-gray-900 text-base font-medium tracking-tight">
+                    <h2 className="text-gray-900 text-base font-medium tracking-tight" aria-label="Book title">
                         <Link href="/book/[slug]" as={`/book/${props.slug}`}><a>
                             {props.title}
                         </a></Link>
                     </h2>
-                    <p className="text-gray-700 text-sm">{props.subtitle}</p>
-                    <p className="text-gray-500 text-sm">{author}</p>
+                    <p className="text-gray-700 text-sm" aria-label="Book subtitle">{props.subtitle}</p>
+                    <p className="text-gray-500 text-sm" aria-label="Book author">{author}</p>
                 </div>
             </div>
             <div className="my-3">
@@ -147,14 +152,14 @@ export default function BookCard(props: Props) {
                     <>
                         <button
                             className={`${counters.userRecommends ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
-                            onClick={recommend}>
+                            onClick={recommend} aria-label="Recommend button">
                             <span>{counters.userRecommends ? 'Recommended!' : 'Recommend'}</span>
                             <span
                                 className="bg-amber-300 text-gray-800 text-xs ml-3 px-2 rounded-full font-semibold">{counters.recommendCount}</span>
                         </button>
                         <button
                             className={`${counters.userWishes ? 'bg-blue-500 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-300 text-gray-700'} rounded-full px-3 py-1 text-sm font-semibold ml-4`}
-                            onClick={wish}>
+                            onClick={wish} aria-label="Wish list button">
                             <span>{counters.userWishes ? 'Wished!' : 'Wish List'}</span>
                             <span
                                 className="bg-amber-300 text-gray-800 text-xs ml-3 px-2 rounded-full font-semibold">{counters.wishCount}</span>

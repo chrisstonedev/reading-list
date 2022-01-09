@@ -13,7 +13,7 @@ export default function ContactForm() {
                     </label>
                     <input
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        name="bookTitle" type="text" id="title"/>
+                        name="bookTitle" type="text" id="title" required={true}/>
                 </div>
                 <div className="mb-4">
                     <label htmlFor="author">
@@ -21,7 +21,7 @@ export default function ContactForm() {
                     </label>
                     <input
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        name="bookAuthor" type="text" id="author"/>
+                        name="bookAuthor" type="text" id="author" required={true}/>
                 </div>
                 <div className="mb-4">
                     <label htmlFor="comments">
