@@ -5,3 +5,7 @@
 [dev]
   command = "npm run dev"
   functions = "./functions"
+[[plugins]]
+  package = "netlify-plugin-cypress"
+  [plugins.inputs]
+    record = true
